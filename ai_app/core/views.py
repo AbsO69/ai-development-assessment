@@ -4,7 +4,6 @@ from django.shortcuts import render
 
 def home(request):
     ai_response = ""
-    image_url = ""
 
     if request.method == "POST":
         prompt = request.POST.get("prompt")
@@ -27,12 +26,9 @@ def home(request):
             for part in parts:
                 if 'text' in part:
                     ai_response += part['text'] + "\n"
-                elif 'inlineData' in part and 'mimeType' in part and part['mimeType'].startswith("image/"):
-                    image_url = f"data:{part['mimeType']};base64,{part['inlineData']['data']}"
         except Exception as e:
             ai_response = f"Error: {str(e)}"
 
     return render(request, "home.html", {
-        "ai_response": ai_response.strip(),
-        "image_url": image_url
+        "ai_response": ai_response.strip()
     })

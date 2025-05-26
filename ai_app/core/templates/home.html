@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gemini AI Assistant</title>
+    <title>Startup Idea Evaluator</title>
     <style>
     body {
         font-family: sans-serif;
@@ -58,25 +58,47 @@
         background: #eef;
         border-left: 4px solid #3498db;
         border-radius: 4px;
+        white-space: pre-wrap;
     }
-</style>
+    .response pre {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    max-height: 300px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    border-left: 6px solid #3498db;
+    white-space: pre-wrap; /* wrap lines nicely */
+    word-wrap: break-word;  /* break long words */
+    }
 
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ask Gemini AI</h1>
+        <h1>Startup Idea Evaluator</h1>
         <form method="POST">
             {% csrf_token %}
-            <textarea name="prompt" placeholder="Type your question here..."></textarea>
-            <button type="submit">Submit</button>
+            <textarea name="prompt" placeholder="Describe your startup idea in 1–3 sentences..."></textarea>
+            <button type="submit">Evaluate</button>
         </form>
 
         {% if ai_response %}
-    <div class="response">
-        <strong>Gemini says:</strong><br>
-        {{ ai_response }}
-    </div>
+        <div class="response">
+            <strong>Mentor's Feedback:</strong><br>
+            {{ ai_response }}
+        </div>
         {% endif %}
     </div>
+    {% if request_payload %}
+    <div class="response">
+        <strong>Request Payload:</strong><br>
+        <pre>{{ request_payload|safe }}</pre>
+    </div>
+{% endif %}
 </body>
 </html>
